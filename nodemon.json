@@ -1,0 +1,5 @@
+{
+  "watch": ["pages", "app", "public", "components", "server.js"],
+  "ext": "js,jsx,ts,tsx,html,css,json",
+  "exec": "node server.js"
+}
