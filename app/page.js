@@ -3,14 +3,20 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const [data, setData] = useState(null);
-  console.log("🚀 ~ Home ~ data:", data);
 
   useEffect(() => {
-    fetch("/api/custom")
-      .then((response) => response.json())
-      .then((data) => setData(data));
+    const custom = async () => {
+      try {
+        const response = await  fetch("/api/custom");
+        const data = await response.json();
+        setData(data);
+        alert("successfull data fetch");
+      } catch (error) {
+        console.log("🚀 ~ custom ~ error:", error.message);
+      }
+    };
+    custom();
   }, []);
-
   return (
     <div>
       <h1>Welcome to my Next.js app!</h1>

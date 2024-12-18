@@ -14,12 +14,17 @@ app.prepare().then(() => {
     res.json({ message: "This is a custom API route" });
   });
 
+  // server.get("/", (req, res) => {
+  //   res.send({ id: 1, name: "zeeshan" });
+  // });
   // Handle all other routes with Next.js
   server.all("*", (req, res) => {
     return handle(req, res);
   });
 
   const PORT = process.env.PORT || 3000;
+  
+
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${PORT}`);
