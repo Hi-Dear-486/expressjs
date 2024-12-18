@@ -15,9 +15,15 @@ app.prepare().then(() => {
     { id: 3, name: "Muhammad Shair", Degree: "BBA" },
   ];
 
-  // Define your custom API route to get all users
   server.get("/api/users", (req, res) => {
-    res.json(users);
+    const { filter, value } = req.query;
+    res.json(
+      filter && value
+        ? users.filter((user) =>
+            user[filter]?.toLowerCase().includes(value.toLowerCase())
+          )
+        : users
+    );
   });
 
   // Define your custom API route to get a user by ID
