@@ -17,7 +17,7 @@ app.prepare().then(() => {
 
   // Define your custom API route to get all users
   server.get("/api/users", (req, res) => {
-    res.json(users); 
+    res.json(users);
   });
 
   // Define your custom API route to get a user by ID
