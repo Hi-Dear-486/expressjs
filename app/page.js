@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     const custom = async () => {
       try {
-        const response = await  fetch("/api/custom");
+        const response = await  fetch("/api/users");
         const data = await response.json();
         setData(data);
         alert("successfull data fetch");
