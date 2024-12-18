@@ -9,6 +9,7 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  server.use(express.json());
   const users = [
     { id: 1, name: "Muhammad Zeeshan", Degree: "BSSE" },
     { id: 2, name: "Muhammad Tayyab Tahir", Degree: "Civil Engineering" },
@@ -35,6 +36,14 @@ app.prepare().then(() => {
     } else {
       res.status(404).json({ message: "User not Found" });
     }
+  });
+
+  // Post Requests
+  server.post("/api/users", (req, res) => {
+    const { body } = req;
+    const newUser = { id: users.length + 1, ...body };
+    users.push(newUser);
+    return res.status(201).json(newUser);
   });
 
   // Handle all other routes with Next.js
