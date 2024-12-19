@@ -46,6 +46,7 @@ app.prepare().then(() => {
     return res.status(201).json(newUser);
   });
 
+  // update the whole resource
   server.put("/api/users/:id", (req, res) => {
     const {
       body,
@@ -55,12 +56,12 @@ app.prepare().then(() => {
     const parseId = parseInt(id);
     if (isNaN(parseId)) return res.sendStatus(400);
     const findUserIndex = users.findIndex((user) => user.id === parseId);
-    if (findUserIndex === -1) return res.sendStatus(400);
+    if (findUserIndex === -1) return res.sendStatus(404);
     users[findUserIndex] = { id: parseId, ...body };
     return res.sendStatus(200);
   });
 
-  // update the value
+  // update the specific field
   server.patch("/api/users/:id", (req, res) => {
     const {
       body,
@@ -70,8 +71,20 @@ app.prepare().then(() => {
     const parseId = parseInt(id);
     if (isNaN(parseId)) return res.sendStatus(400);
     const findUserIndex = users.findIndex((user) => user.id === parseId);
-    if (findUserIndex === -1) return res.sendStatus(400);
+    if (findUserIndex === -1) return res.sendStatus(404);
     users[findUserIndex] = { ...users[findUserIndex], ...body };
+    return res.sendStatus(200);
+  });
+
+  server.delete("/api/users/:id", (req, res) => {
+    const {
+      params: { id },
+    } = req;
+    const parseId = parseInt(id);
+    if (isNaN(parseId)) return res.sendStatus(400);
+    const findUserIndex = users.findIndex((user) => user.id === parseId);
+    if (findUserIndex === -1) return res.sendStatus(404);
+    users.splice(findUserIndex, 1);
     return res.sendStatus(200);
   });
 
