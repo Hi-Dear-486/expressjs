@@ -1,5 +1,5 @@
 // server.js
-import express from "express";
+import express, { response } from "express";
 import next from "next";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -44,6 +44,35 @@ app.prepare().then(() => {
     const newUser = { id: users.length + 1, ...body };
     users.push(newUser);
     return res.status(201).json(newUser);
+  });
+
+  server.put("/api/users/:id", (req, res) => {
+    const {
+      body,
+      params: { id },
+    } = req;
+
+    const parseId = parseInt(id);
+    if (isNaN(parseId)) return res.sendStatus(400);
+    const findUserIndex = users.findIndex((user) => user.id === parseId);
+    if (findUserIndex === -1) return res.sendStatus(400);
+    users[findUserIndex] = { id: parseId, ...body };
+    return res.sendStatus(200);
+  });
+
+  // update the value
+  server.patch("/api/users/:id", (req, res) => {
+    const {
+      body,
+      params: { id },
+    } = req;
+
+    const parseId = parseInt(id);
+    if (isNaN(parseId)) return res.sendStatus(400);
+    const findUserIndex = users.findIndex((user) => user.id === parseId);
+    if (findUserIndex === -1) return res.sendStatus(400);
+    users[findUserIndex] = { ...users[findUserIndex], ...body };
+    return res.sendStatus(200);
   });
 
   // Handle all other routes with Next.js
