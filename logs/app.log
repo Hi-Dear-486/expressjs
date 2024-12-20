@@ -1,0 +1,13 @@
+2024-12-20T10:09:24.853Z info: Received GET request for: /
+2024-12-20T10:09:29.529Z info: Received GET request for: /_next/static/css/app/layout.css?v=1734689369295
+2024-12-20T10:09:29.535Z info: Received GET request for: /_next/static/chunks/webpack.js?v=1734689369295
+2024-12-20T10:09:29.616Z info: Received GET request for: /_next/static/chunks/main-app.js?v=1734689369295
+2024-12-20T10:09:29.622Z info: Received GET request for: /_next/static/chunks/app-pages-internals.js
+2024-12-20T10:09:29.628Z info: Received GET request for: /_next/static/chunks/app/page.js
+2024-12-20T10:09:30.893Z info: Received GET request for: /api/users
+2024-12-20T10:10:12.569Z info: Received GET request for: /api/users
+2024-12-20T10:11:02.951Z info: Received GET request for: /api/users/2
+2024-12-20T10:11:17.903Z info: Received GET request for: /api/users/2
+2024-12-20T10:11:18.172Z info: Received GET request for: /favicon.ico
+2024-12-20T10:12:22.026Z info: Received GET request for: /api/users/2
+2024-12-20T10:12:22.297Z info: Received GET request for: /favicon.ico

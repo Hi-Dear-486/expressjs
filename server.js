@@ -1,6 +1,6 @@
-// server.js
-import express, { response } from "express";
+import express from "express";
 import next from "next";
+import winston from "winston";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -9,13 +9,39 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  // Winston Logger Setup
+  const logger = winston.createLogger({
+    level: "info",
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      winston.format.printf(({ timestamp, level, message }) => {
+        return `${timestamp} ${level}: ${message}`;
+      })
+    ),
+    transports: [
+      // Console output
+      // new winston.transports.Console(),
+      // Log to file
+      new winston.transports.File({ filename: "logs/app.log" }),
+    ],
+  });
+
+  // Middleware to log requests
+  server.use((req, res, next) => {
+    logger.info(`Received ${req.method} request for: ${req.url}`); // Log with Winston
+    next();
+  });
+
+  // Middleware to parse JSON bodies
   server.use(express.json());
+
   const users = [
     { id: 1, name: "Muhammad Zeeshan", Degree: "BSSE" },
     { id: 2, name: "Muhammad Tayyab Tahir", Degree: "Civil Engineering" },
     { id: 3, name: "Muhammad Shair", Degree: "BBA" },
   ];
 
+  // Rest API to get users
   server.get("/api/users", (req, res) => {
     const { filter, value } = req.query;
     res.json(
@@ -27,7 +53,7 @@ app.prepare().then(() => {
     );
   });
 
-  // Define your custom API route to get a user by ID
+  // Get user by ID
   server.get("/api/users/:id", (req, res) => {
     const { id } = req.params;
     const user = users.find((user) => user.id === parseInt(id));
@@ -38,7 +64,7 @@ app.prepare().then(() => {
     }
   });
 
-  // Post Requests
+  // Post new user
   server.post("/api/users", (req, res) => {
     const { body } = req;
     const newUser = { id: users.length + 1, ...body };
@@ -46,13 +72,12 @@ app.prepare().then(() => {
     return res.status(201).json(newUser);
   });
 
-  // update the whole resource
+  // Update user (PUT)
   server.put("/api/users/:id", (req, res) => {
     const {
       body,
       params: { id },
     } = req;
-
     const parseId = parseInt(id);
     if (isNaN(parseId)) return res.sendStatus(400);
     const findUserIndex = users.findIndex((user) => user.id === parseId);
@@ -61,13 +86,12 @@ app.prepare().then(() => {
     return res.sendStatus(200);
   });
 
-  // update the specific field
+  // Update specific field (PATCH)
   server.patch("/api/users/:id", (req, res) => {
     const {
       body,
       params: { id },
     } = req;
-
     const parseId = parseInt(id);
     if (isNaN(parseId)) return res.sendStatus(400);
     const findUserIndex = users.findIndex((user) => user.id === parseId);
@@ -76,6 +100,7 @@ app.prepare().then(() => {
     return res.sendStatus(200);
   });
 
+  // Delete user
   server.delete("/api/users/:id", (req, res) => {
     const {
       params: { id },
