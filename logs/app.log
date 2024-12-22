@@ -80,3 +80,13 @@
 2024-12-22T10:16:21.144Z info: Received PATCH request for: /api/users/3
 2024-12-22T10:16:45.788Z info: Received PATCH request for: /api/users/3
 2024-12-22T10:16:50.105Z info: Received GET request for: /api/users
+2024-12-22T15:57:06.784Z info: Received GET request for: /api/users
+2024-12-22T15:57:13.576Z info: Received GET request for: /
+2024-12-22T15:58:24.508Z info: Received GET request for: /
+2024-12-22T16:07:59.107Z info: Received GET request for: /api/users
+2024-12-22T16:11:56.780Z info: Received GET request for: /
+2024-12-22T16:12:16.951Z info: Received GET request for: /api/users
+2024-12-22T16:17:22.884Z info: Received GET request for: /api/users
+2024-12-22T16:17:41.084Z info: Received GET request for: /
+2024-12-22T16:17:41.428Z info: Received GET request for: /favicon.ico
+2024-12-22T16:17:45.863Z info: Received GET request for: /api/users

@@ -39,7 +39,6 @@ app.prepare().then(() => {
 
   server.post(
     "/",
-
     (req, res) => {
       // Check for validation errors
       const { error, value } = validationSchema.validate(req.body);

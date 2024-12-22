@@ -1,23 +1,40 @@
+import express from "express";
 import { Router } from "express";
 import { users } from "../../utils/constants.js";
+import cookieParser from "cookie-parser";
 let router = Router();
+
+let server = express();
+router.use(cookieParser());
 
 router.get("/", (req, res) => {
   res.cookie("username", "zeeshan", { maxAge: 24 * 60 * 60 * 1000 });
   res.send("set Cookie");
 });
 
-
 // Rest API to get users
 router.get("/api/users", (req, res) => {
   const { filter, value } = req.query;
-  res.json(
-    filter && value
-      ? users.filter((user) =>
-          user[filter]?.toLowerCase().includes(value.toLowerCase())
-        )
-      : users
-  );
+  if (!req.cookies) {
+    return res
+      .status(400)
+      .json({ msg: "Cookies are not enabled or accessible" });
+  }
+  const username = req.cookies["username"]; // 'username' cookie ko get karna
+
+  if (username) {
+    res.json(
+      filter && value
+        ? users.filter((user) =>
+            user[filter]?.toLowerCase().includes(value.toLowerCase())
+          )
+        : users
+    );
+
+    res.json(filteredUsers);
+  } else {
+    return res.status(401).json({ msg: "Sorry: You need the correct cookie" });
+  }
 });
 
 // Get user by ID
