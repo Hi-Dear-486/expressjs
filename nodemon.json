@@ -1,5 +1,14 @@
 {
-  "watch": ["pages", "app", "public", "components", "server.js"],
+  "watch": [
+    "pages",
+    "app",
+    "public",
+    "components",
+    "server.js",
+    "utils",
+    "server",
+    "lib"
+  ],
   "ext": "js,jsx,ts,tsx,html,css,json",
   "exec": "node server.js"
 }
