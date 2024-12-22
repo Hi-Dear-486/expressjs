@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const [data, setData] = useState(null);
+  const [authentication, setAutentication] = useState(null);
+  console.log("🚀 ~ Home ~ authentication:", authentication);
 
   useEffect(() => {
     const custom = async () => {
       try {
-        const response = await  fetch("/api/users");
+        const response = await fetch("/api/users");
         const data = await response.json();
         setData(data);
         alert("successfull data fetch");
@@ -16,6 +18,20 @@ const Home = () => {
       }
     };
     custom();
+  }, []);
+
+  useEffect(() => {
+    const userAuth = async () => {
+      try {
+        const response = await fetch("/");
+        const data = await response.json();
+        setAutentication(data);
+        alert("successfull data fetch");
+      } catch (error) {
+        console.log("🚀 ~ custom ~ error:", error.message);
+      }
+    };
+    userAuth();
   }, []);
   return (
     <div>

@@ -1,6 +1,7 @@
 import express from "express";
 import next from "next";
 import winston from "winston";
+import validationSchema from "./lib/validation";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -40,6 +41,32 @@ app.prepare().then(() => {
     { id: 2, name: "Muhammad Tayyab Tahir", Degree: "Civil Engineering" },
     { id: 3, name: "Muhammad Shair", Degree: "BBA" },
   ];
+
+  server.post(
+    "/",
+
+    (req, res) => {
+      // Check for validation errors
+      const { error, value } = validationSchema.validate(req.body);
+      if (error) {
+        res.status(400).json({
+          errors: error.details.map((err) => ({
+            message: err.message,
+            path: err.path,
+          })),
+        });
+      }
+
+      //Proceed with user registration logic
+      res.status(200).json({
+        message: "user successfully registered",
+        user: value,
+      });
+
+      // If no validation errors, send the request body as a response
+      res.json({ data: req.body });
+    }
+  );
 
   // Rest API to get users
   server.get("/api/users", (req, res) => {
