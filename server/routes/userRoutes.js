@@ -14,7 +14,11 @@ router.get("/", (req, res) => {
 
 // Rest API to get users
 router.get("/api/users", (req, res) => {
-  const { filter, value } = req.query;
+  // Always add X- to custom header
+  res.setHeader("X-Key", "value");
+  const userAgent = req.headers["user-agent"];
+  console.log("🚀 ~ router.get ~ userAgent:", userAgent);
+
   if (!req.cookies) {
     return res
       .status(400)
@@ -22,16 +26,18 @@ router.get("/api/users", (req, res) => {
   }
   const username = req.cookies["username"]; // 'username' cookie ko get karna
 
+  // If 'username' cookie exists
   if (username) {
-    res.json(
+    const { filter, value } = req.query;
+
+    const filteredUsers =
       filter && value
         ? users.filter((user) =>
             user[filter]?.toLowerCase().includes(value.toLowerCase())
           )
-        : users
-    );
+        : users;
 
-    res.json(filteredUsers);
+    return res.json(filteredUsers);
   } else {
     return res.status(401).json({ msg: "Sorry: You need the correct cookie" });
   }
